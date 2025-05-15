@@ -1,5 +1,41 @@
 #include <stdio.h>
 
+void habilidade_cone(int tabuleiro[10][10], int x, int y) {
+    tabuleiro[x][y] = 1;
+    if (x + 1 < 10) {
+        tabuleiro[x + 1][y - 1] = 1;
+        tabuleiro[x + 1][y] = 1;
+        tabuleiro[x + 1][y + 1] = 1;
+    }
+    if (x + 2 < 10) {
+        tabuleiro[x + 2][y - 2] = 1;
+        tabuleiro[x + 2][y - 1] = 1;
+        tabuleiro[x + 2][y] = 1;
+        tabuleiro[x + 2][y + 1] = 1;
+        tabuleiro[x + 2][y + 2] = 1;
+    }
+}
+
+void habilidade_octaedro(int tabuleiro[10][10], int x, int y) {
+    tabuleiro[x][y] = 1;
+    if (x - 1 >= 0) tabuleiro[x - 1][y] = 1;
+    if (x + 1 < 10) tabuleiro[x + 1][y] = 1;
+    if (y - 1 >= 0) tabuleiro[x][y - 1] = 1;
+    if (y + 1 < 10) tabuleiro[x][y + 1] = 1;
+}
+
+void habilidade_cruz(int tabuleiro[10][10], int x, int y) {
+    if (x >= 0 && x < 10 && y >= 0 && y < 10) tabuleiro[x][y] = 1;
+    
+    // Linhas verticais
+    if (x - 1 >= 0) tabuleiro[x - 1][y] = 1;
+    if (x + 1 < 10) tabuleiro[x + 1][y] = 1;
+    
+    // Linhas horizontais
+    if (y - 1 >= 0) tabuleiro[x][y - 1] = 1;
+    if (y + 1 < 10) tabuleiro[x][y + 1] = 1;
+}
+
 int main(){
 
     char linha[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
@@ -22,7 +58,7 @@ int main(){
     }
 
     int navio_vertical[3] = {3, 3, 3};  
-    int x_v = 3, y_v = 7; //Escolhendo coordenadas iniciais do Navio vertical
+    int x_v = 7, y_v = 7; //Escolhendo coordenadas iniciais do Navio vertical
 
     // Posicionando navio vertical no tabuleiro
     for (int i = 0; i < 3; i++) {
@@ -44,6 +80,10 @@ int main(){
     for (int i = 0; i < 3; i++) {
         tabuleiro[x_d2 - i][y_d2 - i] = navio_diagonal2[i];
     }
+
+    habilidade_cone(tabuleiro, 2, 2);
+    habilidade_octaedro(tabuleiro, 7, 1);
+    habilidade_cruz(tabuleiro, 2, 7);
 
     // Exibindo o tabuleiro
     printf("**TABULEIRO BATALHA NAVAL**\n");
